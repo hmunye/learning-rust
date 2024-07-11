@@ -13,6 +13,6 @@ rustc <file_name>
 > The Rust compiler
 
 ```shell
-cargo <new> <build> <run> <check> 
+cargo <new> <build> <run> <check> <add> <update>
 ```
 > Rust's build system and package manager

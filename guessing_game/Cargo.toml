@@ -1,0 +1,8 @@
+[package]
+name = "guessing_game"
+version = "0.1.0"
+edition = "2021"
+
+# This is where external crates and there versions the project depends on are places by Cargo
+[dependencies]
+rand = "0.8.5"

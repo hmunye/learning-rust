@@ -1,7 +1,7 @@
 // The main function is always the first code to run in a Rust program
 //
 // Uses C like syntax with curly braces wrapping the function body, parentheses to pass in
-// parameters, and semicolons (;) to end expressions
+// parameters, and semicolons (;) to end most expressions and statements
 fn main() {
     // This line calls a Rust macro, signified by the '!'
     //
