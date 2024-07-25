@@ -93,8 +93,8 @@ fn main() {
 
     // The borrow check looks for unsafe operations involving references
     //
-    // In this case, 'v.push()' before the println! macro invalidates the reference 'num' because a new heap allocation needs
-    // to be created for a bigger Vec with the right capacity
+    // In this case, 'v.push()' before the println! macro invalidates the reference 'num' because a new 
+    // heap allocation needs to be created for a bigger Vec with the right capacity
     //
     // 'Shared references' are read-only immutable references, while 'unique references' are mutable
     // references

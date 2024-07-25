@@ -38,12 +38,13 @@ fn main() {
     let _z = 10;
 
     // This inner scope shadows '_z', but then is dropped after the scope is over
-    // The value printed for '_z' will therefore be 10
     {
         let _z = 13;
+        // Here '_z' will be 13
         println!("Inner scope value for _z: {_z}");
     }
 
+    // The value printed for '_z' will be 10
     println!("Value for _z: {_z}");
 
     // The difference between 'mut' and 'shadowing' is that mut variable can not have their type
