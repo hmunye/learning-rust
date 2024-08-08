@@ -1,7 +1,6 @@
-use std::collections::HashMap;
+use std::env;
 use std::error::Error;
 use std::fs;
-use std::env;
 
 pub struct Config {
     pub query: String,
@@ -20,7 +19,11 @@ impl Config {
 
         let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config { query, file_path, ignore_case })
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
     }
 }
 
@@ -29,7 +32,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     let results = match config.ignore_case {
         true => search_case_insensitive(&config.query, &contents),
-        false => search_case_sensitive(&config.query, &contents)
+        false => search_case_sensitive(&config.query, &contents),
     };
 
     for line in results {
@@ -39,22 +42,22 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> HashMap<u32, &'a str> {
-    let mut results: HashMap<u32, &'a str> = HashMap::new();
+pub fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> Vec<(u32, &'a str)> {
+    let mut results: Vec<(u32, &'a str)> = Vec::new();
     let mut line_number: u32 = 0;
 
     for line in contents.lines() {
         line_number += 1;
         if line.contains(query) {
-            results.insert(line_number, line);
+            results.push((line_number, line));
         }
     }
 
     results
 }
 
-pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> HashMap<u32, &'a str> {
-    let mut results: HashMap<u32, &'a str> = HashMap::new();
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<(u32, &'a str)> {
+    let mut results: Vec<(u32, &'a str)> = Vec::new();
     let mut line_number: u32 = 0;
 
     let query = query.to_lowercase();
@@ -62,7 +65,7 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> HashMap<u3
     for line in contents.lines() {
         line_number += 1;
         if line.to_lowercase().contains(&query) {
-            results.insert(line_number, line);
+            results.push((line_number, line));
         }
     }
 
@@ -82,8 +85,8 @@ safe, fast, productive.
 Pick three.
 Duct tape.";
 
-        let mut result = HashMap::new();
-        result.insert(2, "safe, fast, productive.");
+        let mut result = Vec::new();
+        result.push((2, "safe, fast, productive."));
 
         assert_eq!(result, search_case_sensitive(query, contents));
     }
@@ -97,9 +100,9 @@ safe, fast, productive.
 Pick three.
 Trust me.";
 
-        let mut result = HashMap::new();
-        result.insert(1, "Rust:");
-        result.insert(4, "Trust me.");
+        let mut result = Vec::new();
+        result.push((1, "Rust:"));
+        result.push((4, "Trust me."));
 
         assert_eq!(result, search_case_insensitive(query, contents));
     }
